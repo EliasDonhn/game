@@ -179,12 +179,14 @@ void playPuzzle(SDL_Renderer* renderer, bool* exit, const unsigned int DIFFICULT
 
     // Dinh nghia cac mau sac o giao dien
     const SDL_Color TILE_COLOUR = {0, 20, 50, 255};
-    const SDL_Color TILE_COMPLETION_COLOUR = {50, 255, 100, 255}; // Green
+    const SDL_Color TILE_COMPLETION_COLOUR = {102, 178, 19, 0}; // Green
     const SDL_Color FONT_COLOUR = {255, 40, 10, 255}; // Led red
     const SDL_Color FONT_COMPLETION_COLOUR = {255, 255, 255, 255}; // White
-    const SDL_Color STOPWATCH_COLOUR = {160, 102, 198, 255}; // Purple
+    const SDL_Color STOPWATCH_COLOUR = {200, 50, 50, 255}; // Red
+    const SDL_Color STOPWATCH_FONT_COLOUR = {0, 0, 0, 255}; // Black
     const SDL_Color BUTTON_COLOUR = {0, 20, 50, 255};
-    const SDL_Color BUTTON_DOWN_COLOUR = {50, 255, 100, 255}; // Green
+    const SDL_Color BUTTON_DOWN_COLOUR = {102, 178, 19, 0}; // Green
+    const SDL_Color MENU_BUTTON_COMPLETION_COLOR = {102, 178, 19, 0}; //
 
     // Load font cho van ban
     const int fontSize = TILE_HEIGHT - 40;
@@ -197,7 +199,7 @@ void playPuzzle(SDL_Renderer* renderer, bool* exit, const unsigned int DIFFICULT
     int startX = BORDER_THICKNESS;
     int startY = BORDER_THICKNESS;
     SDL_Rect rect = {startX, startY, (int)STOPWATCH_WIDTH, (int)STOPWATCH_HEIGHT};
-    Stopwatch stopwatch(rect, STOPWATCH_COLOUR, font, FONT_COLOUR);
+    Stopwatch stopwatch(rect, STOPWATCH_COLOUR, font, STOPWATCH_FONT_COLOUR);
 
     // Tao ra cac tiles
     tileArray tiles;
@@ -248,7 +250,7 @@ void playPuzzle(SDL_Renderer* renderer, bool* exit, const unsigned int DIFFICULT
     float lastTimeMoved;
     float deltaTimeMoved;
     
-    // Track the "moving" and "empty" tile
+    // Cac moving tile va empty tile de chay vong lap
     Tile* movingTile = nullptr;
     bool doneMoving = true;
     Tile* emptyTile = &tiles[DIFFICULTY - 1][DIFFICULTY - 1];
@@ -400,6 +402,15 @@ void playPuzzle(SDL_Renderer* renderer, bool* exit, const unsigned int DIFFICULT
         // Neu xu ly xong thi stopwatch dung lai
         if (!solved)
             stopwatch.calculateTime(renderer);
+        else{
+            for (int row = 0; row < tiles.size(); row++) 
+                for (int col = 0; col < tiles[row].size(); col++) {
+                    tiles[row][col].changeColourTo(TILE_COMPLETION_COLOUR);
+                }
+            menuButton.changeColourTo(TILE_COMPLETION_COLOUR);
+            menuButton.changeFontColourTo(FONT_COMPLETION_COLOUR);
+            menuButton.loadTexture(renderer, "Menu");
+        }
 
         // On dinh FPS
         deltaTimeRendered = SDL_GetTicks() - lastTimeRendered;
@@ -409,9 +420,11 @@ void playPuzzle(SDL_Renderer* renderer, bool* exit, const unsigned int DIFFICULT
 
             lastTimeRendered = SDL_GetTicks();
 
-            // tile.loadTexture(renderer, numberStr);
+            if(solved)
+                SDL_SetRenderDrawColor(renderer, 14, 87, 29, 255);
+            else
+                SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
 
-            SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
             SDL_RenderClear(renderer);
             
             stopwatch.render(renderer);
