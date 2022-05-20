@@ -10,11 +10,15 @@ void Stopwatch::start() {
     time(&mStartTime);
 }
 
-void Stopwatch::calculateTime(SDL_Renderer* const renderer) {
+void Stopwatch::calculateTime(SDL_Renderer* const renderer, bool solved) {
     time_t difference = time(NULL) - mStartTime;
     struct tm* timeinfo = gmtime(&difference);
     strftime(mElapsedTime, sizeof(mElapsedTime), "%H:%M:%S", timeinfo);
 
+    char attitude[] = "In danger ";
     // Load elapsed time into texture
-    loadTexture(renderer, mElapsedTime);
+    if(!solved)
+        loadTexture(renderer, strcat(attitude, mElapsedTime));
+    else
+        loadTexture(renderer, "YOU'RE SAFE");
 }

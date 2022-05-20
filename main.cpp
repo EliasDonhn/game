@@ -150,11 +150,11 @@ unsigned int playMenu(SDL_Renderer* renderer, bool* exit, const unsigned int SCR
 
     }
 
-    for (auto& button : buttons)
-        button.free();
+    // for (auto& button : buttons)
+    //     button.free();
 
-    TTF_CloseFont(font);
-    font = nullptr;
+    // TTF_CloseFont(font);
+    // font = nullptr;
 
     return difficulty;
 }
@@ -180,17 +180,18 @@ void playPuzzle(SDL_Renderer* renderer, bool* exit, const unsigned int DIFFICULT
     // Dinh nghia cac mau sac o giao dien
     const SDL_Color TILE_COLOUR = {0, 20, 50, 255};
     const SDL_Color TILE_COMPLETION_COLOUR = {102, 178, 19, 0}; // Green
-    const SDL_Color FONT_COLOUR = {255, 40, 10, 255}; // Led red
+    const SDL_Color FONT_COLOUR = {255, 0, 0, 255}; // Led red
     const SDL_Color FONT_COMPLETION_COLOUR = {255, 255, 255, 255}; // White
-    const SDL_Color STOPWATCH_COLOUR = {200, 50, 50, 255}; // Red
+    const SDL_Color STOPWATCH_COLOUR = {255, 0, 0, 255}; // Red
     const SDL_Color STOPWATCH_FONT_COLOUR = {0, 0, 0, 255}; // Black
     const SDL_Color BUTTON_COLOUR = {0, 20, 50, 255};
     const SDL_Color BUTTON_DOWN_COLOUR = {102, 178, 19, 0}; // Green
-    const SDL_Color MENU_BUTTON_COMPLETION_COLOR = {102, 178, 19, 0}; //
 
     // Load font cho van ban
     const int fontSize = TILE_HEIGHT - 40;
     TTF_Font* font = TTF_OpenFont("DS-DIGIB.ttf", fontSize);
+    const int fontSizeStopWatch = TILE_HEIGHT / 3;
+    TTF_Font* fontStopWatch = TTF_OpenFont("DS-DIGIB.ttf", fontSizeStopWatch);
     if (font == nullptr) {
         cout << "Failed to load font! Error: " << TTF_GetError() << endl;
     }
@@ -199,7 +200,7 @@ void playPuzzle(SDL_Renderer* renderer, bool* exit, const unsigned int DIFFICULT
     int startX = BORDER_THICKNESS;
     int startY = BORDER_THICKNESS;
     SDL_Rect rect = {startX, startY, (int)STOPWATCH_WIDTH, (int)STOPWATCH_HEIGHT};
-    Stopwatch stopwatch(rect, STOPWATCH_COLOUR, font, STOPWATCH_FONT_COLOUR);
+    Stopwatch stopwatch(rect, STOPWATCH_COLOUR, fontStopWatch, STOPWATCH_FONT_COLOUR);
 
     // Tao ra cac tiles
     tileArray tiles;
@@ -401,7 +402,7 @@ void playPuzzle(SDL_Renderer* renderer, bool* exit, const unsigned int DIFFICULT
 
         // Neu xu ly xong thi stopwatch dung lai
         if (!solved)
-            stopwatch.calculateTime(renderer);
+            stopwatch.calculateTime(renderer, solved);
         else{
             for (int row = 0; row < tiles.size(); row++) 
                 for (int col = 0; col < tiles[row].size(); col++) {
@@ -410,6 +411,7 @@ void playPuzzle(SDL_Renderer* renderer, bool* exit, const unsigned int DIFFICULT
             menuButton.changeColourTo(TILE_COMPLETION_COLOUR);
             menuButton.changeFontColourTo(FONT_COMPLETION_COLOUR);
             menuButton.loadTexture(renderer, "Menu");
+            stopwatch.calculateTime(renderer, solved);
         }
 
         // On dinh FPS

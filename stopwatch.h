@@ -14,6 +14,6 @@ class Stopwatch : public UserInterface {
         Stopwatch(const SDL_Rect& rect, const SDL_Color& colour, TTF_Font* const font, const SDL_Color& fontColour);
 
         void start();
-        void calculateTime(SDL_Renderer* const renderer);
+        void calculateTime(SDL_Renderer* const renderer, bool solved);
         
 };
