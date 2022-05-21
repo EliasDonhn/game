@@ -21,7 +21,7 @@ class UserInterface {
         //Ham nhap gia tri
         UserInterface(const SDL_Rect& rect, const SDL_Color& colour, TTF_Font* const font, const SDL_Color& fontColour);
 
-        //Ham load cau truc
+        //Ham load cau truc van ban
         void loadTexture(SDL_Renderer* const renderer, const char* text);
         void render(SDL_Renderer* const renderer) const;
         void free();

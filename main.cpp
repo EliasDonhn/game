@@ -25,7 +25,6 @@ static inline bool inMap(const int row, const int col, const int maxRow, const i
 
 static bool isEmptyTileInNeighbors(tileArray& tiles, const int row, const int col, Tile* emptyTile) {
     //Ham kiem tra xem trong nhung o lan can thi EmptyTile co nam trong do khong
-
     static const int deltas[4][2] = {{-1, 0}, {0, 1}, {1, 0}, {0, -1}};
 
     for (int i = 0; i < 4; i++) {
@@ -149,12 +148,6 @@ unsigned int playMenu(SDL_Renderer* renderer, bool* exit, const unsigned int SCR
         SDL_RenderPresent(renderer);
 
     }
-
-    // for (auto& button : buttons)
-    //     button.free();
-
-    // TTF_CloseFont(font);
-    // font = nullptr;
 
     return difficulty;
 }
@@ -439,9 +432,7 @@ void playPuzzle(SDL_Renderer* renderer, bool* exit, const unsigned int DIFFICULT
             }
 
             menuButton.render(renderer);
-
             SDL_RenderPresent(renderer);
-
     }
 
     // Giai phong
@@ -453,9 +444,10 @@ void playPuzzle(SDL_Renderer* renderer, bool* exit, const unsigned int DIFFICULT
 
     TTF_CloseFont(font);
     font = nullptr;
+
 }
 
-int main( int argc, char* args[] ) {
+int main(int argc, char* args[]) {
 
     SDL_Window* window;
     SDL_Renderer* renderer;

@@ -15,8 +15,8 @@ void Stopwatch::calculateTime(SDL_Renderer* const renderer, bool solved) {
     struct tm* timeinfo = gmtime(&difference);
     strftime(mElapsedTime, sizeof(mElapsedTime), "%H:%M:%S", timeinfo);
 
-    char attitude[] = "In danger ";
-    // Load elapsed time into texture
+    char attitude[11] = "In danger ";
+
     if(!solved)
         loadTexture(renderer, strcat(attitude, mElapsedTime));
     else
